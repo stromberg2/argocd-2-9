@@ -16,12 +16,8 @@ spec:
         value: "ingress-controller"
       - name: "controller.replicaCount"
         value: "2"
-#      - name: "controller.nodeSelector.beta"\.kubernetes\.io/os""
-#        value: "linux"
-#      - name: "controller.service.externalTrafficPolicy"
-#        value: "local"
       - name: "controller.service.loadBalancerIP"
-        value: "20.127.182.74"
+        value: "52.188.218.122"
       - name: "controller.service.type"
         value: "LoadBalancer" #ClusterIP
       
