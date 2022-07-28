@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-tools
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: helm/cert-manager-tools
+    repoURL: pocaksinfrareg.azurecr.io
+    targetRevision: 0.1.0
+    helm:
+      releaseName: cert-manager-tools
+  destination:    
+    server: "https://kubernetes.default.svc"
+    namespace: ingress-controller
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=false

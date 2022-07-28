@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  # patch for the endless loop ValidatingWebhookConfiguration
+  # https://github.com/cert-manager/cert-manager/issues/4114
+  ignoreDifferences:
+  - group: admissionregistration.k8s.io
+    kind: ValidatingWebhookConfiguration
+    name: cert-manager-webhook
+    jqPathExpressions:
+      - .webhooks[].namespaceSelector.matchExpressions[] | select(.key == "control-plane")
+  project: default
+  source:
+    chart: cert-manager
+    repoURL: https://charts.jetstack.io
+    targetRevision: 1.9.0
+    helm:
+      releaseName: cert-manager
+      parameters:
+      - name: "--namespace"
+        value: "ingress-controller"
+      - name: "--set installCRDs"
+        value: "true"
+      - name: "--version"
+        value: "v1.9.0"  
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ingress-controller
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=false
+    
