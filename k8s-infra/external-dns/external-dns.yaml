@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: helm/external-dns
+  #  repoURL: https://github.com/stromberg2/gitchartrepo
+    repoURL: pocaksinfrareg.azurecr.io
+    targetRevision: 0.11.0
+    helm:
+      releaseName: external-dns
+      parameters:
+      - name: "namespace"
+        value: "external-dns"
+      
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: external-dns
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    
