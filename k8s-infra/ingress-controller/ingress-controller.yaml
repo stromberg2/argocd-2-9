@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-controller
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: ingress-nginx
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.1.4
+    helm:
+      releaseName: ingress-nginx
+      parameters:
+      - name: "namespace"
+        value: "ingress-controller"
+      - name: "controller.replicaCount"
+        value: "2"
+#      - name: "controller.nodeSelector.beta"\.kubernetes\.io/os""
+#        value: "linux"
+#      - name: "controller.service.externalTrafficPolicy"
+#        value: "local"
+      - name: "controller.service.loadBalancerIP"
+        value: "20.127.182.74"
+      - name: "controller.service.type"
+        value: "LoadBalancer" #ClusterIP
+      
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ingress-controller
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+ 
