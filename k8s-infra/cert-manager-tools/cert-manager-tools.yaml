@@ -8,9 +8,12 @@ spec:
   source:
     chart: helm/cert-manager-tools
     repoURL: pocaksinfrareg.azurecr.io
-    targetRevision: 0.2.0
+    targetRevision: 0.2.1
     helm:
       releaseName: cert-manager-tools
+      parameters:
+      - name: "staging.enabled"
+        value: true
   destination:    
     server: "https://kubernetes.default.svc"
     namespace: ingress-controller
