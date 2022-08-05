@@ -13,7 +13,7 @@ spec:
       releaseName: cert-manager-tools
       parameters:
       - name: "staging.enabled"
-        value: true
+        value: "true"
   destination:    
     server: "https://kubernetes.default.svc"
     namespace: ingress-controller
