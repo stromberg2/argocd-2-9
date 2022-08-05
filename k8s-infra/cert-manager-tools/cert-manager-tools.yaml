@@ -8,7 +8,7 @@ spec:
   source:
     chart: helm/cert-manager-tools
     repoURL: pocaksinfrareg.azurecr.io
-    targetRevision: 0.1.0
+    targetRevision: 0.2.0
     helm:
       releaseName: cert-manager-tools
   destination:    
